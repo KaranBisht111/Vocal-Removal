@@ -1,0 +1,196 @@
+/* ============================= */
+/* General Page Styling */
+/* ============================= */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* ============================= */
+/* Index Page (Upload Section) */
+/* ============================= */
+.index-body {
+    background-color: #101820; /* Dark Navy Blue Background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+/* Upload Container */
+.container {
+    background-color: #F2AA4C; /* Vibrant Orange Box */
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    width: 600px;
+    max-width: 90%;
+}
+
+/* Title */
+h1 {
+    color: #101820;
+    font-size: 34px;
+    margin-bottom: 12px;
+}
+
+/* Description */
+.description {
+    color: #101820;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* Upload Input */
+input[type="file"] {
+    display: block;
+    margin: 12px auto;
+    font-size: 18px;
+}
+
+/* Upload Button */
+button {
+    background-color: #101820;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #0C141A;
+}
+
+/* Processing Loader */
+#processing-message {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #101820;
+}
+
+/* Loader Animation */
+.loader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #d35400;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mini Project Footer */
+.mini-project {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+/* ============================= */
+/* Download Page (Results Section) */
+/* ============================= */
+.download-body {
+    background-color: #F2AA4C; /* Vibrant Orange Background */
+    color: #101820;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Page Title */
+.title {
+    font-size: 42px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    color: #101820;
+}
+
+/* Download Section (Box Layout) */
+.download-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* Space between the two boxes */
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Box Styling (Vocal & Instrumental) */
+.box {
+    background-color: #101820; /* Dark Navy Blue Box */
+    padding: 30px;
+    border-radius: 12px;
+    width: 350px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Box Titles */
+h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: white;
+}
+
+/* Audio Player */
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Download Button */
+.download-btn {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 12px 18px;
+    background-color: #F2AA4C;
+    color: #101820;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.download-btn:hover {
+    background-color: #E89A3C;
+}
+
+/* ============================= */
+/* Responsive Design */
+/* ============================= */
+@media (max-width: 768px) {
+    .download-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .box {
+        width: 90%;
+    }
+}
