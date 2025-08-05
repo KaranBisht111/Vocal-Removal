@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Processed Files</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="download-body">
+    <h1 class="title">Vocal Removal</h1>
+
+    <div class="download-container">
+        <div class="box">
+            <h2>Vocals</h2>
+            <audio controls>
+                <source src="{{ vocal_url }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+            <br>
+            <a class="download-btn" href="{{ vocal_url }}" download>Download Vocals</a>
+        </div>
+
+        <div class="box">
+            <h2>Instrumental</h2>
+            <audio controls>
+                <source src="{{ instrumental_url }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+            <br>
+            <a class="download-btn" href="{{ instrumental_url }}" download>Download Instrumental</a>
+        </div>
+    </div>
+
+    <div class="mini-project">Mini Project</div>
+</body>
+</html>
