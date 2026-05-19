@@ -1,5 +1,9 @@
 Flask
+torch
+torchaudio
+demucs
+soundfile
+librosa
 numpy
-pandas
-scikit-learn
-pickle-mixin
+matplotlib
+scipy
