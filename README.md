@@ -165,11 +165,13 @@ Vocal-Removal-System/
   <img src="screenshots/spectrogram2.png" width="850"/>
 </p>
 
----<p align="center">
+---
+<p align="center">
   <img src="screenshots/spectrogram3.png" width="850"/>
 </p>
 
----<p align="center">
+---
+<p align="center">
   <img src="screenshots/spectrogram4.png" width="850"/>
 </p>
 
