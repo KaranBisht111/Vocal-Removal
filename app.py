@@ -1,7 +1,6 @@
 from flask import Flask, request, render_template, send_from_directory, url_for
 import os
 import torch
-import torchaudio
 import soundfile as sf
 import numpy as np
 from demucs.hdemucs import HDemucs
@@ -23,28 +22,41 @@ torch.serialization.add_safe_globals([BagOfModels, HDemucs])
 
 # Load trained model
 print("Loading trained model...")
+
 try:
     checkpoint = torch.load(MODEL_PATH, map_location="cpu", weights_only=False)
 
     if isinstance(checkpoint, BagOfModels):
-        model = checkpoint.models[0]  # Extract model if it's a BagOfModels
+        model = checkpoint.models[0]
     else:
-        model = checkpoint  # Use directly if it's already HDemucs
+        model = checkpoint
 
     model.eval()
     print("✅ Model loaded successfully!")
+
 except Exception as e:
     print(f"❌ Error loading model: {e}")
     model = None
 
+
 # Function to process audio and apply separation
 def process_audio(input_path, filename):
+
     print(f"Processing: {filename}...")
 
-    # Load audio
-    audio, sr = torchaudio.load(input_path)
+    # ✅ Load audio using soundfile instead of torchaudio
+    audio, sr = sf.read(input_path)
 
-    # Convert mono to stereo if needed
+    # ✅ Convert numpy array to torch tensor
+    audio = torch.tensor(audio, dtype=torch.float32)
+
+    # ✅ Convert shape to [channels, samples]
+    if audio.ndim == 1:
+        audio = audio.unsqueeze(0)
+    else:
+        audio = audio.T
+
+    # ✅ Convert mono to stereo if needed
     if audio.shape[0] == 1:
         audio = torch.cat([audio, audio], dim=0)
 
@@ -56,8 +68,8 @@ def process_audio(input_path, filename):
     sources = sources.cpu().numpy()
 
     # Correct source separation
-    instrumental = sources[0]  
-    vocals = np.sum(sources[1:], axis=0)  
+    instrumental = sources[0]
+    vocals = np.sum(sources[1:], axis=0)
 
     # Define output folder
     output_dir = os.path.join(PROCESSED_FOLDER, filename.split(".")[0])
@@ -66,19 +78,25 @@ def process_audio(input_path, filename):
     # Save separated files
     vocal_path = os.path.join(output_dir, "vocals.wav")
     instrumental_path = os.path.join(output_dir, "instrumental.wav")
+
     sf.write(vocal_path, vocals.T, sr)
     sf.write(instrumental_path, instrumental.T, sr)
 
     print(f"Processing complete: {filename}")
+
     return vocal_path, instrumental_path
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+
     if request.method == "POST":
+
         if "file" not in request.files:
             return "No file uploaded!"
 
         file = request.files["file"]
+
         if file.filename == "":
             return "No selected file!"
 
@@ -88,16 +106,32 @@ def index():
         # Process the audio
         vocal_path, instrumental_path = process_audio(filepath, file.filename)
 
-        return render_template("download.html", 
-                               vocal_url=url_for('download_file', folder=file.filename.split(".")[0], filename="vocals.wav"),
-                               instrumental_url=url_for('download_file', folder=file.filename.split(".")[0], filename="instrumental.wav"))
+        return render_template(
+            "download.html",
+            vocal_url=url_for(
+                'download_file',
+                folder=file.filename.split(".")[0],
+                filename="vocals.wav"
+            ),
+            instrumental_url=url_for(
+                'download_file',
+                folder=file.filename.split(".")[0],
+                filename="instrumental.wav"
+            )
+        )
 
     return render_template("index.html")
 
+
 @app.route("/processed/<folder>/<filename>")
 def download_file(folder, filename):
-    """Handles file download requests properly"""
-    return send_from_directory(os.path.join(PROCESSED_FOLDER, folder), filename, as_attachment=True)
+
+    return send_from_directory(
+        os.path.join(PROCESSED_FOLDER, folder),
+        filename,
+        as_attachment=True
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
